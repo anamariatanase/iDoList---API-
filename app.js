@@ -17,7 +17,7 @@ const listsRoute = require('./routes/lists');
 const usersRoute = require('./routes/users');
 
 app.use('/lists', listsRoute);
-app.use('/users', usersRoute);
+app.use('/api', usersRoute);
 // connecting to db
 mongoose.connect(process.env.DB_CONNECTION,
     {

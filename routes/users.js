@@ -18,14 +18,15 @@ router.get('/', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    const user = await User.findOne({ username: req.body.username });
+    try{
+        const user = await User.findOne({ username: req.body.username });
     if (!user) {
-        return res.status(200).send({
+        return res.send({
             message: "user not found"
         })
     }
     if (!await bcrypt.compare(req.body.password, user.password)) {
-        return res.status(200).send({
+        return res.status(401)({
             message: "invalid credentials"
         })
     }
@@ -37,10 +38,14 @@ router.post('/login', async (req, res) => {
     res.json({
         message: "success"
     })
+    }catch(e){
+        res.json({message:e})
+    }
+    
 });
 
 
-router.post('/signup', async (req, res) => {
+router.post('/register', async (req, res) => {
 
     try {
         const salt = await bcrypt.genSalt(10);
@@ -80,6 +85,12 @@ router.get('/user', async (req, res) => {
     }
 });
 
+router.post('/logout',(req,res)=>{
+    res.cookie('jwt','',{maxAge:0});
+    res.json({
+        message:'successfully logged out'
+    })
+})
 
 router.get('/:username', async (req, res) => {
     try {
