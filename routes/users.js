@@ -47,12 +47,12 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     let lists=[]; 
-    console.log(req)
+    let listNames =[];
     req.body.lists.forEach(element => {
         lists.push(element)
-
+        listNames.push(element.listName)
     });
-    console.log(lists)
+    console.log("LIST NAMES",listNames)
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -64,7 +64,8 @@ router.post('/register', async (req, res) => {
             email: req.body.lastName,
             app_background: req.body.app_background,
             cards:req.body.cards,
-            lists: lists
+            lists: lists,
+            listNames:listNames
         });
         console.log(user)
         const savedUser = await user.save();

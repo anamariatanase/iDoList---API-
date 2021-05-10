@@ -29,10 +29,12 @@ const UserSchema = mongoose.Schema({
             listName: String,
             title: String,
             cards: [{
+                id:String,
                 content: String
             }]
         
 
-    }]
+    }],
+    listNames:Array
 })
 module.exports = mongoose.model('Users', UserSchema);
