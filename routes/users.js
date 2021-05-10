@@ -46,7 +46,13 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/register', async (req, res) => {
+    let lists=[]; 
+    console.log(req)
+    req.body.lists.forEach(element => {
+        lists.push(element)
 
+    });
+    console.log(lists)
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -57,8 +63,10 @@ router.post('/register', async (req, res) => {
             lastName: req.body.lastName,
             email: req.body.lastName,
             app_background: req.body.app_background,
-            lists: req.body.lists
+            cards:req.body.cards,
+            lists: lists
         });
+        console.log(user)
         const savedUser = await user.save();
         const { password, ...data } = savedUser.toJSON()
         res.json(data);

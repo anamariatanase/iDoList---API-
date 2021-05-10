@@ -24,15 +24,15 @@ const UserSchema = mongoose.Schema({
         unique: true,
     },
     app_background: String,
-    lists: {
-        list: [{
+    lists: [{
+       
             listName: String,
             title: String,
             cards: [{
                 content: String
             }]
-        }]
+        
 
-    }
+    }]
 })
 module.exports = mongoose.model('Users', UserSchema);
