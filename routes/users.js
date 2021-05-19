@@ -61,7 +61,7 @@ router.post('/register', async (req, res) => {
             password: hashedPassword,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            email: req.body.lastName,
+            email: req.body.email,
             app_background: req.body.app_background,
             cards:req.body.cards,
             lists: lists,
@@ -103,6 +103,7 @@ router.post('/logout',(req,res)=>{
 
 router.get('/:username', async (req, res) => {
     try {
+        console.log("aici")
         const user = User.findById(req.params.username);
         res.json(user);
     } catch (err) {
@@ -121,13 +122,12 @@ router.delete('/:username', async (req, res) => {
 });
 
 
-router.patch('/:username', async (req, res) => {
-    try {
-        const updatedUser = await User.updateOne({ username: req.params.username }, {
-            $set: {
-                firstName: req.body.firstName,
-            }
-        });
+router.patch('/update/:id', async (req, res) => {
+    try {        
+        console.log(req.params)
+        console.log(req.body)
+        const updatedUser = await User.updateOne({ _id: req.params.id }, { $set: req.body });
+        console.log("User updates: ", updatedUser)
         res.json(updatedUser);
     } catch (err) {
         res.json({ message: err });
